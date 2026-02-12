@@ -37,10 +37,6 @@
             color: white;
         }
 
-        #yesBtn:hover {
-            background: #ff1f4b;
-        }
-
         #noBtn {
             background: #6c757d;
             color: white;
@@ -62,11 +58,25 @@
         }
 
         .love-box {
-            background: rgba(255,255,255,0.15);
-            padding: 40px;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 60px;
+            border-radius: 25px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            box-shadow: 0 0 30px rgba(255,255,255,0.4);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .funny-img {
+            width: 180px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        #countdown {
+            font-size: 60px;
+            margin-top: 20px;
         }
 
         .heart {
@@ -105,14 +115,25 @@
         <h1>Hehe… I knew it 😌</h1>
         <p>अब त तिमी आधिकारिक रूपमा</p>
         <h2>✨ Billas-approved person ✨</h2>
-        <p>Warning: High charm, unlimited teasing, and occasional flirting ahead 😏</p>
-        <p>Escape not possible now 💘</p>
+
+        <!-- Funny Image -->
+        <img class="funny-img" 
+             src="https://media.tenor.com/2roX3uxz_68AAAAC/cat-love.gif" 
+             alt="funny cat">
+
+        <p>Warning: High charm, unlimited teasing, and random flirting ahead 😏</p>
+        <div id="countdown">5</div>
+        <p id="finalMessage" style="display:none; font-size:22px; margin-top:20px;">
+            Are you still waiting for the surprise message? 😏  
+            Ohhh… I got you.  
+            But honestly… the real surprise is how cute you look right now thinking about it 😉
+        </p>
     </div>
 </div>
 
-<!-- Background Music -->
+<!-- Romantic Music -->
 <audio id="loveMusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6c0a7a7c8a.mp3?filename=romantic-love-11786.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -130,13 +151,16 @@
         document.getElementById("questionBox").style.display = "none";
         document.getElementById("flirtyScreen").style.display = "flex";
 
-        // play music
-        document.getElementById("loveMusic").play();
+        const music = document.getElementById("loveMusic");
+        music.volume = 0.6;
+        music.play().catch(() => {});
 
-        // generate floating hearts
+        // hearts
         for (let i = 0; i < 20; i++) {
             createHeart();
         }
+
+        startCountdown();
     }
 
     function createHeart() {
@@ -152,6 +176,33 @@
         setTimeout(() => {
             heart.remove();
         }, 7000);
+    }
+
+    function startCountdown() {
+        let count = 5;
+        const countdownEl = document.getElementById("countdown");
+
+        const interval = setInterval(() => {
+            count--;
+            countdownEl.textContent = count;
+
+            speakNumber(count);
+
+            if (count <= 0) {
+                clearInterval(interval);
+                countdownEl.style.display = "none";
+                document.getElementById("finalMessage").style.display = "block";
+            }
+        }, 1000);
+
+        speakNumber(5);
+    }
+
+    function speakNumber(num) {
+        const msg = new SpeechSynthesisUtterance(num.toString());
+        msg.rate = 0.9;
+        msg.pitch = 1.2;
+        speechSynthesis.speak(msg);
     }
 </script>
 
