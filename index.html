@@ -4,7 +4,8 @@
     <title>Billas Challenge</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive;
             text-align: center;
             background: linear-gradient(to right, #ff9a9e, #fad0c4);
             height: 100vh;
@@ -17,8 +18,8 @@
         .box {
             background: white;
             padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         button {
@@ -26,22 +27,27 @@
             margin: 15px;
             font-size: 18px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: 0.3s;
         }
 
         #yesBtn {
-            background: #28a745;
+            background: #ff4d6d;
             color: white;
         }
 
+        #yesBtn:hover {
+            background: #ff1f4b;
+        }
+
         #noBtn {
-            background: #dc3545;
+            background: #6c757d;
             color: white;
             position: absolute;
         }
 
-        /* Flirty screen */
+        /* Flirty Screen */
         #flirtyScreen {
             display: none;
             position: absolute;
@@ -52,19 +58,32 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-size: 28px;
             animation: fadeIn 1s ease-in-out;
         }
 
-        .heart {
-            font-size: 50px;
-            animation: float 2s infinite ease-in-out;
+        .love-box {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
 
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
         }
 
         @keyframes fadeIn {
@@ -82,11 +101,19 @@
 </div>
 
 <div id="flirtyScreen">
-    <div class="heart">❤️</div>
-    <h1>Hehe… I knew it 😌</h1>
-    <p>Now you’re officially stuck with this Billas 😏</p>
-    <p>Warning: High levels of charm ahead 💘</p>
+    <div class="love-box">
+        <h1>Hehe… I knew it 😌</h1>
+        <p>अब त तिमी आधिकारिक रूपमा</p>
+        <h2>✨ Billas-approved person ✨</h2>
+        <p>Warning: High charm, unlimited teasing, and occasional flirting ahead 😏</p>
+        <p>Escape not possible now 💘</p>
+    </div>
 </div>
+
+<!-- Background Music -->
+<audio id="loveMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
 <script>
     const noBtn = document.getElementById("noBtn");
@@ -102,6 +129,29 @@
     function sayYes() {
         document.getElementById("questionBox").style.display = "none";
         document.getElementById("flirtyScreen").style.display = "flex";
+
+        // play music
+        document.getElementById("loveMusic").play();
+
+        // generate floating hearts
+        for (let i = 0; i < 20; i++) {
+            createHeart();
+        }
+    }
+
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 7000);
     }
 </script>
 
