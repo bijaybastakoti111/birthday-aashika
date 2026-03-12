@@ -128,7 +128,7 @@
             transform: scale(1.03);
         }
 
-        /* Video Section */
+        /* Video Section (YouTube Embed) */
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
@@ -136,15 +136,16 @@
             overflow: hidden;
             border-radius: 15px;
             background: #000;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        .video-wrapper video {
+        .video-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border: 0;
         }
 
         /* Footer */
@@ -234,13 +235,20 @@
 
         <!-- Video Section -->
         <section id="video">
-            <h2>A Special Video 🎥</h2>
+            <h2>A Birthday Wish 🎥</h2>
             <div class="video-wrapper">
-                <!-- Replace 'sample-video.mp4' with your actual video file name -->
-                <video controls poster="https://via.placeholder.com/800x450/FFB6C1/000000?text=Video+Thumbnail">
-                    <source src="sample-video.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <!-- 
+                  I EMBEDDED A YOUTUBE VIDEO HERE AS A PLACEHOLDER. 
+                  If you have your own video file (like .mp4), delete the <iframe> below 
+                  and use the <video> tag instead.
+                -->
+                <iframe 
+                    src="https://www.youtube.com/embed/JDbRkhD6XHc?rel=0&showinfo=0" 
+                    title="Happy Birthday Video" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
             </div>
         </section>
 
