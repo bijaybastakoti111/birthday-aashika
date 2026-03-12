@@ -1,210 +1,302 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Billas Challenge</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎂</title>
     <style>
-        body {
+        /* --- CSS Styles --- */
+        :root {
+            --primary-color: #ff6b81;
+            --secondary-color: #ff9ff3;
+            --bg-color: #fff0f5;
+            --text-color: #4a4a4a;
+        }
+
+        * {
             margin: 0;
-            font-family: 'Comic Sans MS', cursive;
-            text-align: center;
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            text-align: center;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            position: relative;
         }
 
-        .box {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .hero h1 {
+            font-size: 3.5rem;
+            color: #ff4757;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInDown 1s ease-out;
         }
 
-        button {
-            padding: 12px 25px;
-            margin: 15px;
-            font-size: 18px;
+        .hero p {
+            font-size: 1.5rem;
+            color: #57606f;
+            animation: fadeInUp 1s ease-out 0.5s backwards;
+        }
+
+        .scroll-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #ff4757;
+            color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.3s;
+            font-size: 1rem;
+            transition: transform 0.3s;
+            animation: bounce 2s infinite;
         }
 
-        #yesBtn {
-            background: #ff4d6d;
-            color: white;
+        .scroll-btn:hover {
+            transform: scale(1.1);
         }
 
-        #noBtn {
-            background: #6c757d;
-            color: white;
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 60px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            cursor: pointer;
+            background-color: #ddd;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        /* Video Section */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            background: #000;
+        }
+
+        .video-wrapper video {
             position: absolute;
-        }
-
-        /* Flirty Screen */
-        #flirtyScreen {
-            display: none;
-            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            object-fit: cover;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #ff6b81;
             color: white;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            animation: fadeIn 1s ease-in-out;
+            font-size: 1.2rem;
         }
 
-        .love-box {
-            background: rgba(255,255,255,0.2);
-            padding: 60px;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 30px rgba(255,255,255,0.4);
-            max-width: 600px;
-            width: 90%;
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .funny-img {
-            width: 180px;
-            margin: 20px 0;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        #countdown {
-            font-size: 60px;
-            margin-top: 20px;
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
         }
 
+        /* Hearts Background Animation */
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
         .heart {
             position: absolute;
-            font-size: 24px;
-            animation: floatUp 6s linear infinite;
+            font-size: 20px;
+            animation: fall linear infinite;
+            opacity: 0.7;
         }
 
-        @keyframes floatUp {
-            from {
-                transform: translateY(100vh);
-                opacity: 1;
-            }
-            to {
-                transform: translateY(-10vh);
-                opacity: 0;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-<div class="box" id="questionBox">
-    <h2>Are you ready to handle all the "Billas"? 😏</h2>
-    <button id="yesBtn" onclick="sayYes()">Yes</button>
-    <button id="noBtn">No</button>
-</div>
+    <!-- Hero Section -->
+    <header class="hero" id="top">
+        <div class="hearts-bg" id="hearts-container"></div>
+        <h1>Happy Birthday! 🎂</h1>
+        <p>Hey [Her Name], I made this just for you.</p>
+        <button class="scroll-btn" onclick="scrollToSection('message')">Click to Open 🎁</button>
+    </header>
 
-<div id="flirtyScreen">
-    <div class="love-box">
-        <h1>Hehe… I knew it 😌</h1>
-        <p>अब त तिमी आधिकारिक रूपमा</p>
-        <h2>✨ Billas-approved person ✨</h2>
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- Message Section -->
+        <section id="message">
+            <h2>A Little Note ✉️</h2>
+            <p class="message-text">
+                "I am really happy we met recently. Our conversations have been the highlight of my days. 
+                On your special day, I just want to wish you all the happiness in the world. 
+                May this year bring you as much joy as you've brought into mine in such a short time. 
+                Have an amazing birthday!"
+            </p>
+        </section>
 
-        <!-- Funny Image -->
-        <img class="funny-img" 
-             src="https://media.tenor.com/2roX3uxz_68AAAAC/cat-love.gif" 
-             alt="funny cat">
+        <!-- Photo Gallery Section -->
+        <section id="photos">
+            <h2>Memories 📸</h2>
+            <div class="gallery-grid">
+                <!-- Placeholder Images. Replace src with your actual image files -->
+                <img src="https://via.placeholder.com/400x300/FFB6C1/000000?text=Photo+1" alt="Memory 1" class="gallery-item">
+                <img src="https://via.placeholder.com/400x300/DDA0DD/000000?text=Photo+2" alt="Memory 2" class="gallery-item">
+                <img src="https://via.placeholder.com/400x300/FF69B4/000000?text=Photo+3" alt="Memory 3" class="gallery-item">
+                <img src="https://via.placeholder.com/400x300/EE82EE/000000?text=Photo+4" alt="Memory 4" class="gallery-item">
+            </div>
+        </section>
 
-        <p>Warning: High charm, unlimited teasing, and random flirting ahead 😏</p>
-        <div id="countdown">5</div>
-        <p id="finalMessage" style="display:none; font-size:22px; margin-top:20px;">
-            Are you still waiting for the surprise message? 😏  
-            Ohhh… I got you.  
-            But honestly… the real surprise is how cute you look right now thinking about it 😉
-        </p>
+        <!-- Video Section -->
+        <section id="video">
+            <h2>A Special Video 🎥</h2>
+            <div class="video-wrapper">
+                <!-- Replace 'sample-video.mp4' with your actual video file name -->
+                <video controls poster="https://via.placeholder.com/800x450/FFB6C1/000000?text=Video+Thumbnail">
+                    <source src="sample-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
     </div>
-</div>
 
-<!-- Romantic Music -->
-<audio id="loveMusic" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6c0a7a7c8a.mp3?filename=romantic-love-11786.mp3" type="audio/mpeg">
-</audio>
+    <footer>
+        Made with ❤️ just for you.
+    </footer>
 
-<script>
-    const noBtn = document.getElementById("noBtn");
+    <!-- JavaScript -->
+    <script>
+        // 1. Scroll Reveal Animation
+        const sections = document.querySelectorAll('section');
 
-    noBtn.addEventListener("mouseover", () => {
-        const x = Math.random() * (window.innerWidth - 100);
-        const y = Math.random() * (window.innerHeight - 50);
+        const revealSection = () => {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const triggerPoint = window.innerHeight / 1.2;
 
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    });
+                if (sectionTop < triggerPoint) {
+                    section.classList.add('visible');
+                }
+            });
+        };
 
-    function sayYes() {
-        document.getElementById("questionBox").style.display = "none";
-        document.getElementById("flirtyScreen").style.display = "flex";
+        window.addEventListener('scroll', revealSection);
+        revealSection(); // Run on load
 
-        const music = document.getElementById("loveMusic");
-        music.volume = 0.6;
-        music.play().catch(() => {});
-
-        // hearts
-        for (let i = 0; i < 20; i++) {
-            createHeart();
+        // 2. Smooth Scroll Function
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        startCountdown();
-    }
+        // 3. Falling Hearts Background Logic
+        const heartsContainer = document.getElementById('hearts-container');
 
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.classList.add('heart');
+            
+            // Random position
+            heart.style.left = Math.random() * 100 + 'vw';
+            // Random duration
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            
+            heartsContainer.appendChild(heart);
 
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+            // Remove heart after animation to prevent memory leaks
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
 
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 7000);
-    }
-
-    function startCountdown() {
-        let count = 5;
-        const countdownEl = document.getElementById("countdown");
-
-        const interval = setInterval(() => {
-            count--;
-            countdownEl.textContent = count;
-
-            speakNumber(count);
-
-            if (count <= 0) {
-                clearInterval(interval);
-                countdownEl.style.display = "none";
-                document.getElementById("finalMessage").style.display = "block";
-            }
-        }, 1000);
-
-        speakNumber(5);
-    }
-
-    function speakNumber(num) {
-        const msg = new SpeechSynthesisUtterance(num.toString());
-        msg.rate = 0.9;
-        msg.pitch = 1.2;
-        speechSynthesis.speak(msg);
-    }
-</script>
-
+        // Generate hearts every 300ms
+        setInterval(createHeart, 300);
+    </script>
 </body>
 </html>
