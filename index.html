@@ -6,144 +6,147 @@
 <title>Happy Birthday</title>
 
 <style>
-body{margin:0;font-family:"Segoe UI",sans-serif;background:linear-gradient(135deg,#ff9a9e,#fad0c4);overflow-x:hidden;text-align:center;color:#333;}
-.container{max-width:900px;margin:auto;padding:40px 20px;}
-h1{font-size:55px;margin-top:30px;}
-.name{color:#ff2e63;font-size:28px;}
-.message{font-size:20px;margin-top:25px;min-height:80px;}
-button{margin-top:25px;padding:14px 30px;font-size:16px;border:none;border-radius:30px;background:#ff2e63;color:white;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,.2);} 
-button:hover{background:#e61b4f;}
+body{margin:0;font-family:"Segoe UI",sans-serif;color:#fff;overflow-x:hidden;text-align:center;
+background: radial-gradient(circle at top, rgba(26,26,46,.85), rgba(15,15,26,.95)), url('bg.png') center/cover no-repeat fixed;}
+.container{max-width:900px;margin:auto;padding:40px 20px}
+h1{font-size:48px;margin-top:30px}
+.name{color:#ff6b9a;font-size:28px}
+.message{font-size:20px;margin-top:20px;min-height:80px}
+button{margin-top:20px;padding:12px 26px;border:none;border-radius:30px;background:#ff4b7d;color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+button:hover{background:#e63b6a}
 
-/* CINEMATIC TAP OVERLAY */
-.tapOverlay{position:fixed;inset:0;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:20;cursor:pointer}
-.tapOverlay.hidden{display:none}
+/* intro overlay */
+.intro{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:30}
+.intro.hidden{display:none}
+.intro .box{background:#111;padding:24px 28px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
 
-/* BULBS + WIRE */
-.wire{position:fixed;top:0;width:100%;height:40px;background:linear-gradient(#333,#222);z-index:10}
-.bulbs{position:fixed;top:0;width:100%;display:flex;justify-content:space-around;padding:10px;z-index:11}
-.bulb{width:14px;height:22px;background:#555;border-radius:50%;box-shadow:0 0 0 rgba(255,255,0,0);transition:.3s}
-.bulb.on{background:yellow;box-shadow:0 0 15px yellow,0 0 35px yellow}
+/* bulbs */
+.bulbs{position:fixed;top:0;width:100%;display:flex;justify-content:space-around;padding:10px;z-index:10}
+.bulb{width:12px;height:20px;background:#333;border-radius:50%;transition:.3s}
+.bulb.on{background:yellow;box-shadow:0 0 18px yellow,0 0 36px yellow}
 
-/* FLASH */
-.flash{position:fixed;inset:0;background:white;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9}
+/* chat */
+.chat{background:#1f1f2e;border-radius:14px;padding:14px;margin-top:16px;text-align:left}
+.chat p{background:#ff4b7d;padding:10px 12px;border-radius:12px;margin:6px 0;width:fit-content}
 
-/* GATE */
-.gate{display:flex;justify-content:center;gap:10px;margin-top:30px;perspective:1000px}
-.door{width:150px;height:200px;background:#8b4513;border-radius:10px;transition:transform 1.5s}
-.left{transform-origin:left}
-.right{transform-origin:right}
-.left.open{transform:rotateY(-120deg)}
-.right.open{transform:rotateY(120deg)}
+/* gate */
+.gate{display:flex;justify-content:center;gap:10px;margin-top:24px;perspective:1000px}
+.door{width:140px;height:200px;background:#8b4513;border-radius:10px;transition:1.5s}
+.left{transform-origin:left}.right{transform-origin:right}
+.left.open{transform:rotateY(-120deg)}.right.open{transform:rotateY(120deg)}
 
-/* VIDEO */
-video{margin-top:30px;width:100%;max-height:360px;object-fit:contain;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
-
-/* GALLERY */
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:30px}
-.gallery img{width:100%;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+video{width:100%;max-height:320px;object-fit:contain;border-radius:12px;margin-top:16px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:16px}
+.gallery img{width:100%;border-radius:10px}
 .hidden{display:none}
 
-/* CONFETTI */
-.confetti{position:fixed;inset:0;pointer-events:none}
-.confetti div{position:absolute;width:8px;height:8px;background:red;animation:fall 3s linear infinite}
+/* confetti */
+.confetti div{position:absolute;width:6px;height:6px;animation:fall 3s linear infinite}
 @keyframes fall{0%{transform:translateY(-10vh)}100%{transform:translateY(110vh)}}
 
-/* CANDLE */
-.candle{font-size:70px;margin-top:10px}
+/* ending */
+.ending{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:25}
+.ending.hidden{display:none}
+.ending .card{background:#111;padding:26px 30px;border-radius:16px}
+
 </style>
 </head>
 
 <body>
 
-<div id="tap" class="tapOverlay">Tap to start ✨</div>
-<div class="wire"></div>
-<div class="bulbs" id="bulbs">
-<div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+<!-- intro -->
+<div id="intro" class="intro">
+  <div class="box">
+    <h2>A small surprise for you ✨</h2>
+    <button onclick="startExperience()">Start</button>
+  </div>
 </div>
 
-<div class="flash" id="flash"></div>
-<div class="confetti" id="confetti"></div>
+<div class="bulbs" id="bulbs">
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+</div>
 
 <div class="container">
 <h1>🎉 Happy Birthday 🎂</h1>
-<div class="candle">🕯️</div>
 <h2 class="name">Aashika</h2>
 <div class="message" id="typing"></div>
 
 <button onclick="turnOnLight()">Turn on the Light ✨</button>
 
+<div id="chat" class="chat hidden"></div>
+
 <div id="gateSection" class="hidden">
-<div class="gate">
-<div class="door left" id="leftDoor"></div>
-<div class="door right" id="rightDoor"></div>
-</div>
-<button onclick="openGate()">Open the Gate 🚪</button>
+  <div class="gate">
+    <div class="door left" id="leftDoor"></div>
+    <div class="door right" id="rightDoor"></div>
+  </div>
+  <button onclick="openGate()">Open Surprise 🚪</button>
 </div>
 
 <div id="videoSection" class="hidden">
-<h2>Your Surprise 🎥</h2>
-<video controls>
-<source src="video.mp4" type="video/mp4">
-</video>
-<button onclick="showMore()">Do you want to go more? ❤️</button>
+  <video controls>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <button onclick="showMore()">Go deeper ❤️</button>
 </div>
 
 <div id="finalSection" class="hidden">
-<h2>Memories Gallery 📸</h2>
-<div class="gallery">
-<img src="photo1.png"><img src="photo2.png"><img src="photo3.png">
-</div>
-<div style="margin-top:30px;background:white;padding:20px;border-radius:15px">
-<p id="finalText"></p>
-</div>
-</div>
+  <div class="gallery">
+    <img src="photo1.png"><img src="photo2.png"><img src="photo3.png">
+  </div>
+  <p id="finalText"></p>
+  <button onclick="showEnding()">One last thing 💖</button>
 </div>
 
-<audio id="birthdayMusic">
-<source src="happy-birthday.mp3" type="audio/mpeg">
+</div>
+
+<!-- ending -->
+<div id="ending" class="ending hidden">
+  <div class="card">
+    <h2>Made for you ❤️</h2>
+    <p>I hope this made you smile today 😊</p>
+  </div>
+</div>
+
+<audio id="music">
+  <source src="happy-birthday.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// tap start
-const tap=document.getElementById('tap');
-tap.onclick=()=>tap.classList.add('hidden');
+function startExperience(){ document.getElementById('intro').classList.add('hidden'); }
 
-// intro typing
-const text="I truly enjoy talking with you. You bring such a positive energy and I always look forward to our conversations.";
-let i=0;function typeWriter(){if(i<text.length){document.getElementById('typing').innerHTML+=text.charAt(i);i++;setTimeout(typeWriter,40)}};typeWriter();
+// typing
+const text="You have such a beautiful heart, strong mind, and inspiring spirit.";
+let i=0;function type(){if(i<text.length){typing.innerHTML+=text[i];i++;setTimeout(type,40)}};type();
 
 function turnOnLight(){
-// flash
-const flash=document.getElementById('flash');flash.style.opacity='1';setTimeout(()=>flash.style.opacity='0',250);
+  let bulbs=document.querySelectorAll('.bulb');
+  bulbs.forEach((b,i)=>setTimeout(()=>b.classList.add('on'),i*150));
+  document.getElementById('music').play();
+  setTimeout(showChat,1000);
+}
 
-// bulbs sequential + blink
-const bulbs=document.querySelectorAll('.bulb');
-bulbs.forEach((b,i)=>setTimeout(()=>b.classList.add('on'),i*150));
-setInterval(()=>{bulbs.forEach(b=>b.classList.toggle('on'))},800);
-
-// music
-const music=document.getElementById('birthdayMusic');music.play();
-
-// show gate
-setTimeout(()=>document.getElementById('gateSection').classList.remove('hidden'),1200);
+function showChat(){
+  let chat=document.getElementById('chat');
+  chat.classList.remove('hidden');
+  let msgs=["Hey 😊","I’m really glad we met","You have a beautiful heart","Today is all about you 🎂"];
+  let k=0;function next(){if(k<msgs.length){let p=document.createElement('p');p.innerText=msgs[k];chat.appendChild(p);k++;setTimeout(next,800)}else{gateSection.classList.remove('hidden')}}
+  next();
 }
 
 function openGate(){
-document.getElementById('leftDoor').classList.add('open');
-document.getElementById('rightDoor').classList.add('open');
-createConfetti();
-setTimeout(()=>document.getElementById('videoSection').classList.remove('hidden'),1200);
+  leftDoor.classList.add('open'); rightDoor.classList.add('open'); createConfetti();
+  setTimeout(()=>videoSection.classList.remove('hidden'),900);
 }
 
-function showMore(){
-document.getElementById('finalSection').classList.remove('hidden');typeFinal();}
+function showMore(){ finalSection.classList.remove('hidden'); typeFinal(); }
 
-function createConfetti(){
-const c=document.getElementById('confetti');
-for(let i=0;i<70;i++){let d=document.createElement('div');d.style.left=Math.random()*100+'%';d.style.background=['red','yellow','blue','pink'][Math.floor(Math.random()*4)];d.style.animationDuration=(Math.random()*3+2)+'s';c.appendChild(d)}}
+function createConfetti(){ for(let i=0;i<70;i++){ let d=document.createElement('div'); d.style.left=Math.random()*100+'%'; d.style.background=['red','yellow','pink'][Math.floor(Math.random()*3)]; document.body.appendChild(d);} }
 
-const finalMsg="There is something beautiful about people who carry kindness, strength, and belief within themselves. You have that rare combination. May life keep rewarding your heart with happiness, your dreams with progress, and your journey with bright moments.";
-let j=0;function typeFinal(){if(j<finalMsg.length){document.getElementById('finalText').innerHTML+=finalMsg.charAt(j);j++;setTimeout(typeFinal,30)}}
+const finalMsg="May your life always be filled with happiness, growth, and beautiful moments.";
+let j=0;function typeFinal(){ if(j<finalMsg.length){ finalText.innerHTML+=finalMsg[j]; j++; setTimeout(typeFinal,30);} }
+
+function showEnding(){ document.getElementById('ending').classList.remove('hidden'); }
 </script>
 
 </body>
