@@ -14,54 +14,51 @@ h1{font-size:55px;margin-top:30px;}
 button{margin-top:25px;padding:14px 30px;font-size:16px;border:none;border-radius:30px;background:#ff2e63;color:white;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,.2);} 
 button:hover{background:#e61b4f;}
 
-/* BULBS */
-.bulbs{position:fixed;top:0;width:100%;display:flex;justify-content:space-around;padding:10px;background:#222;z-index:10;}
-.bulb{width:15px;height:25px;background:#444;border-radius:50%;transition:all 0.3s;}
-.bulb.on{background:yellow;box-shadow:0 0 20px yellow,0 0 40px yellow;}
+/* CINEMATIC TAP OVERLAY */
+.tapOverlay{position:fixed;inset:0;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:20;cursor:pointer}
+.tapOverlay.hidden{display:none}
+
+/* BULBS + WIRE */
+.wire{position:fixed;top:0;width:100%;height:40px;background:linear-gradient(#333,#222);z-index:10}
+.bulbs{position:fixed;top:0;width:100%;display:flex;justify-content:space-around;padding:10px;z-index:11}
+.bulb{width:14px;height:22px;background:#555;border-radius:50%;box-shadow:0 0 0 rgba(255,255,0,0);transition:.3s}
+.bulb.on{background:yellow;box-shadow:0 0 15px yellow,0 0 35px yellow}
 
 /* FLASH */
-.flash{
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:white;opacity:0;pointer-events:none;
-transition:opacity 0.3s;
-z-index:5;
-}
+.flash{position:fixed;inset:0;background:white;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9}
 
 /* GATE */
-.gate{display:flex;justify-content:center;gap:10px;margin-top:30px;perspective:1000px;}
-.door{width:150px;height:200px;background:#8b4513;border-radius:10px;transition:transform 1.5s;}
-.left{transform-origin:left;}
-.right{transform-origin:right;}
-.left.open{transform:rotateY(-120deg);} 
-.right.open{transform:rotateY(120deg);} 
+.gate{display:flex;justify-content:center;gap:10px;margin-top:30px;perspective:1000px}
+.door{width:150px;height:200px;background:#8b4513;border-radius:10px;transition:transform 1.5s}
+.left{transform-origin:left}
+.right{transform-origin:right}
+.left.open{transform:rotateY(-120deg)}
+.right.open{transform:rotateY(120deg)}
 
-video{margin-top:30px;width:100%;max-height:400px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2);} 
+/* VIDEO */
+video{margin-top:30px;width:100%;max-height:360px;object-fit:contain;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
 
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:30px;}
-.gallery img{width:100%;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,.2);} 
-
-.hidden{display:none;}
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:30px}
+.gallery img{width:100%;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+.hidden{display:none}
 
 /* CONFETTI */
-.confetti{position:fixed;width:100%;height:100%;top:0;left:0;pointer-events:none;}
-.confetti div{position:absolute;width:8px;height:8px;background:red;animation:fall 3s linear infinite;}
+.confetti{position:fixed;inset:0;pointer-events:none}
+.confetti div{position:absolute;width:8px;height:8px;background:red;animation:fall 3s linear infinite}
 @keyframes fall{0%{transform:translateY(-10vh)}100%{transform:translateY(110vh)}}
 
+/* CANDLE */
+.candle{font-size:70px;margin-top:10px}
 </style>
 </head>
 
 <body>
 
-<!-- BULBS -->
+<div id="tap" class="tapOverlay">Tap to start ✨</div>
+<div class="wire"></div>
 <div class="bulbs" id="bulbs">
-<div class="bulb"></div>
-<div class="bulb"></div>
-<div class="bulb"></div>
-<div class="bulb"></div>
-<div class="bulb"></div>
-<div class="bulb"></div>
-<div class="bulb"></div>
-<div class="bulb"></div>
+<div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
 </div>
 
 <div class="flash" id="flash"></div>
@@ -69,6 +66,7 @@ video{margin-top:30px;width:100%;max-height:400px;border-radius:15px;box-shadow:
 
 <div class="container">
 <h1>🎉 Happy Birthday 🎂</h1>
+<div class="candle">🕯️</div>
 <h2 class="name">Aashika</h2>
 <div class="message" id="typing"></div>
 
@@ -93,16 +91,12 @@ video{margin-top:30px;width:100%;max-height:400px;border-radius:15px;box-shadow:
 <div id="finalSection" class="hidden">
 <h2>Memories Gallery 📸</h2>
 <div class="gallery">
-<img src="photo1.png">
-<img src="photo2.png">
-<img src="photo3.png">
+<img src="photo1.png"><img src="photo2.png"><img src="photo3.png">
 </div>
-
-<div style="margin-top:30px;background:white;padding:20px;border-radius:15px;">
+<div style="margin-top:30px;background:white;padding:20px;border-radius:15px">
 <p id="finalText"></p>
 </div>
 </div>
-
 </div>
 
 <audio id="birthdayMusic">
@@ -110,69 +104,46 @@ video{margin-top:30px;width:100%;max-height:400px;border-radius:15px;box-shadow:
 </audio>
 
 <script>
+// tap start
+const tap=document.getElementById('tap');
+tap.onclick=()=>tap.classList.add('hidden');
 
-const text = "I truly enjoy talking with you. You bring such a positive energy and I always look forward to our conversations.";
-let i = 0;
-function typeWriter(){
-if(i < text.length){
-document.getElementById("typing").innerHTML += text.charAt(i);
-i++;setTimeout(typeWriter,40);}}
-typeWriter();
+// intro typing
+const text="I truly enjoy talking with you. You bring such a positive energy and I always look forward to our conversations.";
+let i=0;function typeWriter(){if(i<text.length){document.getElementById('typing').innerHTML+=text.charAt(i);i++;setTimeout(typeWriter,40)}};typeWriter();
 
 function turnOnLight(){
+// flash
+const flash=document.getElementById('flash');flash.style.opacity='1';setTimeout(()=>flash.style.opacity='0',250);
 
-// flash effect
-const flash = document.getElementById("flash");
-flash.style.opacity = "1";
-setTimeout(()=>{flash.style.opacity="0";},300);
-
-// bulbs glow
-const bulbs = document.querySelectorAll(".bulb");
-bulbs.forEach((b,i)=>{
-setTimeout(()=>{b.classList.add("on");}, i*200);
-});
+// bulbs sequential + blink
+const bulbs=document.querySelectorAll('.bulb');
+bulbs.forEach((b,i)=>setTimeout(()=>b.classList.add('on'),i*150));
+setInterval(()=>{bulbs.forEach(b=>b.classList.toggle('on'))},800);
 
 // music
-const music = document.getElementById("birthdayMusic");
-music.play();
+const music=document.getElementById('birthdayMusic');music.play();
 
 // show gate
-setTimeout(()=>{
-document.getElementById("gateSection").classList.remove("hidden");
-},1500);
+setTimeout(()=>document.getElementById('gateSection').classList.remove('hidden'),1200);
 }
 
 function openGate(){
-document.getElementById("leftDoor").classList.add("open");
-document.getElementById("rightDoor").classList.add("open");
+document.getElementById('leftDoor').classList.add('open');
+document.getElementById('rightDoor').classList.add('open');
 createConfetti();
-setTimeout(()=>{
-document.getElementById("videoSection").classList.remove("hidden");
-},1200);
+setTimeout(()=>document.getElementById('videoSection').classList.remove('hidden'),1200);
 }
 
 function showMore(){
-document.getElementById("finalSection").classList.remove("hidden");
-typeFinal();
-}
+document.getElementById('finalSection').classList.remove('hidden');typeFinal();}
 
 function createConfetti(){
-const container = document.getElementById("confetti");
-for(let i=0;i<60;i++){
-let d=document.createElement("div");
-d.style.left=Math.random()*100+"%";
-d.style.background=["red","yellow","blue","pink"][Math.floor(Math.random()*4)];
-d.style.animationDuration=(Math.random()*3+2)+"s";
-container.appendChild(d);
-}}
+const c=document.getElementById('confetti');
+for(let i=0;i<70;i++){let d=document.createElement('div');d.style.left=Math.random()*100+'%';d.style.background=['red','yellow','blue','pink'][Math.floor(Math.random()*4)];d.style.animationDuration=(Math.random()*3+2)+'s';c.appendChild(d)}}
 
-const finalMsg = "There is something beautiful about people who carry kindness, strength, and belief within themselves. You have that rare combination. May life keep rewarding your heart with happiness, your dreams with progress, and your journey with bright moments.";
-let j=0;
-function typeFinal(){
-if(j < finalMsg.length){
-document.getElementById("finalText").innerHTML += finalMsg.charAt(j);
-j++;setTimeout(typeFinal,30);}}
-
+const finalMsg="There is something beautiful about people who carry kindness, strength, and belief within themselves. You have that rare combination. May life keep rewarding your heart with happiness, your dreams with progress, and your journey with bright moments.";
+let j=0;function typeFinal(){if(j<finalMsg.length){document.getElementById('finalText').innerHTML+=finalMsg.charAt(j);j++;setTimeout(typeFinal,30)}}
 </script>
 
 </body>
